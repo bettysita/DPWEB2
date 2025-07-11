@@ -21,5 +21,10 @@ class UsuarioModel{
         $sql = $this->conexion->query($consulta);
         return $sql->num_rows;
     }
+   public function buscarPersonaPorNroIdentidad($nro_identidad){
+        $consulta = "SELECT id, razon_social, password FROM persona WHERE nro_identidad='$nro_identidad' LIMIT 1";
+        $sql = $this->conexion->query($consulta);
+        return $sql->fetch_object();
+    }
 }
 

@@ -58,5 +58,30 @@ async function registrarUsuario() {
     }
 }
 
+async function iniciar_sesion(){
+    let usuario = document.getElementById("usuario").value;
+    let password = document.getElementById("clave").value;
+    if(usuario =="" && password ==""){
+        alert("Error, campos vacios!");
+        return;
+
+    }
+    try { let respuesta = await fetch(base_url+'control/UsuarioController.php?tipo=iniciar_sesion',{
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+
+        });
+        const datos = new FormData();
+    } catch (error) {
+        console.log(Error);
+        
+     
+        
+    }
+ 
+}
+
 
 

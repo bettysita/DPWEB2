@@ -1,32 +1,27 @@
 <?php
 require_once("../model/CategoriaModel.php");
 
-header('Content-Type: application/json'); // Asegura que devuelva JSON
-
-$objcategoria = new CategoriaModel();
-
-$tipo = $_GET['tipo'] ?? '';
+$objCategoria = new CategoriaModel();
+$tipo = $_GET['tipo'];
 
 if ($tipo == "registrar") {
-    $nombre = $_POST['nombre'] ?? '';
-    $detalle = $_POST['detalle'] ?? '';
+    $nombre = $_POST['nombre'];
+    $detalle = $_POST['detalle'];
 
-    if (trim($nombre) == "" || trim($detalle) == "") {
-        echo json_encode(['status' => false, 'msg' => 'Error, campos vacíos']);
-        exit;
-    }
-
-    $existe = $objcategoria->existeCategoria($nombre);
-    if ($existe > 0) {
-        echo json_encode(['status' => false, 'msg' => 'Error, nombre de categoría ya existe']);
-        exit;
-    }
-
-    $respuesta = $objcategoria->registrar($nombre, $detalle);
-    if ($respuesta > 0) {
-        echo json_encode(['status' => true, 'msg' => 'Se registró correctamente']);
+    if ($nombre == "" || $detalle == "") {
+        $arrResponse = array('status' => false, 'msg' => 'Error, campos vacíos');
     } else {
-        echo json_encode(['status' => false, 'msg' => 'Error al registrar categoría']);
+        $existeCategoria = $objCategoria->existeCategoria($nombre);
+        if ($existeCategoria > 0) {
+            $arrResponse = array('status' => false, 'msg' => 'Error, la categoría ya existe');
+        } else {
+            $respuesta = $objCategoria->registrar($nombre, $detalle);
+            if ($respuesta > 0) {
+                $arrResponse = array('status' => true, 'msg' => 'Categoría registrada correctamente');
+            } else {
+                $arrResponse = array('status' => false, 'msg' => 'Error al registrar');
+            }
+        }
     }
+    echo json_encode($arrResponse);
 }
-?>

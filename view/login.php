@@ -3,64 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Iniciar Sesión</title>
     <style>
-        body {
-            background-color: #F8C8DC;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        /* Todo tu CSS está bien */
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .image-container {
-            width: 100%;
-            height: 200px;
-            background-image: url('view/img/img2.webp');
-            background-size: cover;
-            background-position: center;
-            border-radius: 10px;
-            margin-bottom: 20px;
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #89f7fe, #66a6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .login-container {
-            max-width: 400px;
-            width: 90%;
-            padding: 40px;
-            background-color: white;
-            border-radius: 10px;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 380px;
         }
+
         .login-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-group {
             margin-bottom: 20px;
         }
-        .login-container input {
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: #555;
+        }
+
+        .form-group input {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
+            padding: 12px 10px;
             border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: 0.3s;
         }
-        .login-container button {
+
+        .form-group input:focus {
+            border-color: #66a6ff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(102, 166, 255, 0.5);
+        }
+
+        .btn-login {
             width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
+            padding: 12px;
+            background-color: rgb(255, 102, 196);
             color: white;
-            border-radius: 5px;
             border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-        </style>
+
+        .btn-login:hover {
+            background-color: rgb(79, 161, 238);
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .footer-text a {
+            color: rgb(9, 6, 201);
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        const base_url = '<?= BASE_URL ?>';
+    </script>
 </head>
 <body>
     <div class="login-container">
-        <div class="image-container"></div>
-        <h2>Iniciar Sesión</h2>
-        <form action="/login" method="POST">
-            <input type="text" placeholder="Usuario" name="username" required>
-            <input type="password" placeholder="Contraseña" name="password" required>
-            <button type="submit">Iniciar Sesión</button>
+        <h2>login personal</h2>
+        <form id="frm_login">
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" name="usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="clave">Contraseña</label>
+                <input type="password" id="clave" name="clave" required>
+            </div>
+            <button type="button" class="btn-login" onclick="iniciar_sesion();">Ingresar</button>
         </form>
+        <div class="footer-text">
+            ¿No tienes cuenta? <a href="#">Regístrate</a>
+        </div>
     </div>
+
+    <script src="<?= BASE_URL ?>view/DPWEB2/function.user.js"></script>
 </body>
 </html>

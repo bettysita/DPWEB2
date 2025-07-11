@@ -39,3 +39,25 @@ if ($tipo == 'registrar') {
    }
    echo json_encode($arrResponse);
 }
+if ($tipo == "iniciar_seccion "){
+   $nro_identidad = $_POST['usuario'];
+   $password = $_POST['clave'];
+   if ($nro_identidad == "" || $password == ""){
+      $respuesta = array ('status' => false, 'msg' => 'error, campos vacios ');
+    
+   }else {
+      $existePersona = $objPersona->existePersona($nro_identidad);
+      if ($existePersona == 0) {
+         $respuesta = array ('status' => false, 'msg' => 'error, usuario no registrado ');
+    
+      }else{
+         $persona = $objPersona->buscarPersonaPorNroIdentidad($nro_identidad);
+         ($nro_identidad);
+         if (password_verify($password,$persona->password)){
+            
+         }
+      }
+      
+   }
+   
+}

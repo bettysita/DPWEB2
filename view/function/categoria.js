@@ -1,27 +1,26 @@
-function validar_Form() {
-    let nombre = document.getElementById("nombre").value.trim();
-    let detalle = document.getElementById("detalle").value.trim();
+function validar_form() {
+    let nombre = document.getElementById("nombre").value;
+    let detalle = document.getElementById("detalle").value;
 
     if (nombre === "" || detalle === "") {
-        Swal.fire("Error", "Campos vacíos", "warning");
+        alert("Error: Existen campos vacíos");
         return;
     }
     registrarCategoria();
 }
 
-if (document.querySelector('#categoriaForm')) {
-    let frm_user = document.querySelector('#categoriaForm');
-    frm_user.onsubmit = function (e) {
+if (document.querySelector('#frm_categoria')) {
+    let frm_categoria = document.querySelector('#frm_categoria');
+    frm_categoria.onsubmit = function (e) {
         e.preventDefault();
-        validar_Form();
+        validar_form();
     }
 }
 
 async function registrarCategoria() {
     try {
-        const datos = new FormData(document.getElementById('categoriaForm'));
-
-        let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=registrar', {
+        const datos = new FormData(frm_categoria);
+        let respuesta = await fetch(bd_url + 'control/categoriaController.php?tipo=registrar', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -31,15 +30,12 @@ async function registrarCategoria() {
         let json = await respuesta.json();
 
         if (json.status) {
-            Swal.fire("Éxito", json.msg, "success");
-            document.getElementById('categoriaForm').reset();
+            alert(json.msg);
+            frm_categoria.reset();
         } else {
-            Swal.fire("Error", json.msg, "error");
+            alert(json.msg);
         }
-
-        
-    } catch (error) {
-        Swal.fire("Error", "Fallo al enviar datos", "error");
-        console.error("Error al registrar categoría: " + error);
+    } catch (e) {
+        console.log("Error al registrar categoría: " + e);
     }
 }

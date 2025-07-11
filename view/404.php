@@ -3,47 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Página no encontrada</title>
     <style>
-        body {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: #ffcccb;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f9f9f9, #e0e0e0);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             text-align: center;
+            color: #333;
         }
-        .error-container {
+
+        .container {
             max-width: 600px;
-            width: 90%;
-            padding: 40px;
         }
-        .error-container img {
-            max-width: 50%;
-            height: auto;
-            border-radius: 10px;
+
+        h1 {
+            font-size: 8rem;
+            color: #ff6b6b;
+            margin-bottom: 10px;
         }
-        .home-button {
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        a {
             text-decoration: none;
+            padding: 12px 24px;
+            background-color: #ff6b6b;
             color: white;
-            background-color: #FF5733;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #ff4c4c;
+        }
+
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="error-container">
-        <img src="view/img/netflix.jpg" alt="netflix" style="width: 100%; height: auto; border-radius: 10px;">
+    <div class="container">
         <h1>404</h1>
-        <p>Error: Página no encontrada. Probablemente esté viendo Netflix en lugar de trabajar</p>
-        <p>¡Vuelve al trabajo o al menos a la página principal!</p>
-        <span class="home-button">Volver</span>
+        <h2>¡Oops! Página no encontrada</h2>
+        <p>La página que estás buscando no existe o fue movida a otro lugar.</p>
+        <a href="/">Volver al inicio</a>
     </div>
 </body>
 </html>
