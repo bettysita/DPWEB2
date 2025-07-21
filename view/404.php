@@ -1,81 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página no encontrada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Error 404 - Página no encontrada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #f9f9f9, #e0e0e0);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-image: url('https://img.freepik.com/vector-gratis/fondo-textura-futurista-pastel-abstracto_53876-115746.jpg?semt=ais_hybrid&w=740');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            color: #333;
         }
 
         .container {
             max-width: 600px;
+            padding: 2rem;
         }
 
-        h1 {
-            font-size: 8rem;
-            color: #ff6b6b;
-            margin-bottom: 10px;
+        .error-code {
+            font-size: 10rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
+        .message {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
         }
 
-        p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
+        .description {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            color: #000000ff;
         }
 
-        a {
+        .btn-home {
+            padding: 0.75rem 1.5rem;
+            background-color: #fff;
+            color: #764ba2;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
             text-decoration: none;
-            padding: 12px 24px;
-            background-color: #ff6b6b;
-            color: white;
-            border-radius: 8px;
-            transition: background-color 0.3s;
+            transition: 0.3s ease;
         }
 
-        a:hover {
-            background-color: #ff4c4c;
+        .btn-home:hover {
+            background-color: #ddd;
         }
 
-        @media (max-width: 500px) {
-            h1 {
-                font-size: 5rem;
+        @media (max-width: 480px) {
+            .error-code {
+                font-size: 6rem;
             }
 
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            p {
-                font-size: 1rem;
+            .message {
+                font-size: 1.4rem;
             }
         }
     </style>
 </head>
+
 <body>
+
     <div class="container">
-        <h1>404</h1>
-        <h2>¡Oops! Página no encontrada</h2>
-        <p>La página que estás buscando no existe o fue movida a otro lugar.</p>
-        <a href="/">Volver al inicio</a>
+        <div class="error-code">404</div>
+        <div class="message">¡Ups! Página no encontrada</div>
+        <div class="description">
+            La página que buscas no existe o ha sido movida. <br>Por favor, vuelve al inicio.
+        </div>
+        <a href="index.html" class="btn-home">Volver al Inicio</a>
     </div>
+
 </body>
+
 </html>
+
