@@ -1,7 +1,7 @@
 <div class="container">
     <h4 class="mt-3 mb-3">lista de Usuarios</h4>
 <table class="table table-success table-striped-columns">
-    <head>
+    <thead>
         <tr>
             <th class="text-center">Nro</th>
             <th class="text-center">DNI</th>
@@ -10,10 +10,10 @@
             <th class="text-center">Rol</th>
             <th class="text-center">Estado</th>
         </tr>
-    </head>
-    <body id="content_users">
+    </thead>
+    <tbody id="content_users">
         
-    </body>
+    </tbody>
 </table>
 </div>
-<script src="<?= BASE_URL ?>view/function/user.js"></script>
+<script src="<?= BASE_URL ?>view/function/users.js"></script>

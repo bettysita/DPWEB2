@@ -108,33 +108,34 @@ async function iniciar_sesion() {
     }
     
 }
+
 async function view_users() {
     try {
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_usuarios', {
-            method: 'GET',
+        let respuesta = await fetch(base_url + 'control/usuarioController.php?tipo=ver_usuarios', {
+            method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
         });
-
-        let json = await respuesta.json(); 
-        let content_users = document.getElementById('content_users');
-        content_users.innerHTML = ''; // limpiamos antes de insertar
-
-        json.forEach((user, index) => {
-            let fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${users.nro_identidad}</td>
-                <td>${users.razon_social}</td>
-                <td>${users.correo}</td>
-                <td>${users.rol}</td>
-                <td>${users.estado}</td>
-            `;
-            content_users.appendChild(fila);
-        });
-
+        let json = await respuesta.json();
+        if (json && json.length > 0) {
+            let html = '';
+            json.forEach((user, index) => {
+                html += `<tr>
+                    <td>${index + 1}</td>
+                    <td>${user.nro_identidad || ''}</td>
+                    <td>${user.razon_social|| ''}</td>
+                    <td>${user.correo ||''}</td> 
+                    <td>${user.rol ||''}</td> 
+                    <td>${user.estado || ''}</td>
+                </tr>`;
+            });
+            document.getElementById('content_users').innerHTML = html;
+        } else {
+            document.getElementById('content_users').innerHTML = '<tr><td colspan="6">No hay usuarios disponibles</td></tr>';
+        }
     } catch (error) {
-        console.log("Error al obtener usuarios: " + error); 
+        console.log(error);
+        document.getElementById('content_users').innerHTML = '<tr><td colspan="6">Error al cargar los usuarios</td></tr>';
     }
 }
 

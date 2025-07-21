@@ -201,6 +201,9 @@
             }
         }
     </style>
+    <script>
+        const base_url = " ";
+    </script>
 </head>
 
 <body>
@@ -244,19 +247,7 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
-    <script>
-        function iniciar_sesion() {
-            const user = document.getElementById('username').value.trim();
-            const pass = document.getElementById('password').value.trim();
-
-            if (user === 'admin@example.com' && pass === 'admin') {
-                alert('Inicio de sesión exitoso');
-            } else {
-                alert('Usuario o contraseña incorrecta');
-            }
-        }
-    </script>
 </body>
+<script src="<?= BASE_URL; ?>view/function/users.js"></script>
 
 </html>
