@@ -108,6 +108,39 @@ async function iniciar_sesion() {
     }
     
 }
+async function view_users() {
+    try {
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_usuarios', {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache'
+        });
+
+        let json = await respuesta.json(); 
+        let content_users = document.getElementById('content_users');
+        content_users.innerHTML = ''; // limpiamos antes de insertar
+
+        json.forEach((user, index) => {
+            let fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${users.nro_identidad}</td>
+                <td>${users.razon_social}</td>
+                <td>${users.correo}</td>
+                <td>${users.rol}</td>
+                <td>${users.estado}</td>
+            `;
+            content_users.appendChild(fila);
+        });
+
+    } catch (error) {
+        console.log("Error al obtener usuarios: " + error); 
+    }
+}
+
+if (document.getElementById('content_users')) {
+    view_users();
+}
 
 
    
