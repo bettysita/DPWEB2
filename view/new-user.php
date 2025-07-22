@@ -76,9 +76,9 @@
                         </div>
                     </div>
                     <div style=" display:flex; justify-content:center; gap:20px">
-                        <button type="submit"   class="btn btn-info">Submit</button >
-                        <button type="reset"   class="btn btn-primary" id="clearBtn">Clear</button>
-                        <button type="button" onclick="alerth()" class="btn btn-danger" >Cancel</button>
+                        <button type="submit"   class="btn btn-info">Registrar</button >
+                        <button type="reset"   class="btn btn-primary" id="clearBtn">Limpiar</button>
+                        <button type="button" onclick="alerth()" class="btn btn-danger" >Cancelar</button>
                     </div>
                 </form>
             </div>

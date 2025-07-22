@@ -80,68 +80,71 @@ function alerth() {
 }
 
 async function iniciar_sesion() {
-    let usuario  = document.getElementById("username").value;
-    let password  = document.getElementById("password").value;
+   let usuario = document.getElementById("username").value;
+   let password = document.getElementById("password").value;
 
-    if(usuario == "" || password == ""){
-        alert("error, campos vacios!");
-        return;
-    }
-    try {
-        const datos = new FormData(frm_login);
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=iniciar_sesion', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            body: datos
-        });
-          let json = await respuesta.json();
+   if (usuario == "" || password == "") {
+      alert("error, campos vacios!");
+      return;
+   }
+   try {
+      const datos = new FormData(frm_login);
+      let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=iniciar_sesion', {
+         method: 'POST',
+         mode: 'cors',
+         cache: 'no-cache',
+         body: datos
+      });
+      let json = await respuesta.json();
       // validamos que json sea true
       if (json.status) { //true
-         location.replace(base_url +'new-user');
+         location.replace(base_url + 'new-user');
       } else {
          alert(json.msg);
       }
-    } catch (error) {
-        console.log(error);
-        
-    }
-    
+   } catch (error) {
+      console.log(error);
+
+   }
+
 }
 
 async function view_users() {
-    try {
-        let respuesta = await fetch(base_url + 'control/usuarioController.php?tipo=ver_usuarios', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache'
-        });
-        let json = await respuesta.json();
-        if (json && json.length > 0) {
-            let html = '';
-            json.forEach((user, index) => {
-                html += `<tr>
+   try {
+      let respuesta = await fetch(base_url + 'control/usuarioController.php?tipo=ver_usuarios', {
+         method: 'POST',
+         mode: 'cors',
+         cache: 'no-cache'
+      });
+      let json = await respuesta.json();
+      if (json && json.length > 0) {
+         let html = '';
+         json.forEach((user, index) => {
+            html += `<tr>
                     <td>${index + 1}</td>
-                    <td>${user.nro_identidad || ''}</td>
-                    <td>${user.razon_social|| ''}</td>
-                    <td>${user.correo ||''}</td> 
-                    <td>${user.rol ||''}</td> 
-                    <td>${user.estado || ''}</td>
+                    <td>${user.nro_identidad}</td>
+                    <td>${user.razon_social}</td>
+                    <td>${user.correo}</td> 
+                    <td>${user.rol}</td> 
+                    <td>${user.estado}</td>
+                    <td>
+                    <a href="` + base_url + ` edit_users/` + user.id + `">Editar</a>
+                    </td>
                 </tr>`;
-            });
-            document.getElementById('content_users').innerHTML = html;
-        } else {
-            document.getElementById('content_users').innerHTML = '<tr><td colspan="6">No hay usuarios disponibles</td></tr>';
-        }
-    } catch (error) {
-        console.log(error);
-        document.getElementById('content_users').innerHTML = '<tr><td colspan="6">Error al cargar los usuarios</td></tr>';
-    }
+                
+         });
+         document.getElementById('content_users').innerHTML = html;
+      } else {
+         document.getElementById('content_users').innerHTML = '<tr><td colspan="6">No hay usuarios disponibles</td></tr>';
+      }
+   } catch (error) {
+      console.log(error);
+      document.getElementById('content_users').innerHTML = '<tr><td colspan="6">Error al cargar los usuarios</td></tr>';
+   }
 }
 
 if (document.getElementById('content_users')) {
-    view_users();
+   view_users();
 }
 
 
-   

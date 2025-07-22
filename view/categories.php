@@ -20,8 +20,8 @@
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; gap: 20px">
-                        <button type="submit" class="btn btn-info">Submit</button>
-                        <button type="reset" class="btn btn-primary">Clear</button>
+                        <button type="submit" class="btn btn-info">Registrar</button>
+                        <button type="reset" class="btn btn-primary">Limpiar</button>
                         <button type="button" class="btn btn-danger" onclick="cancelar()">Cancelar</button>
                     </div>
                 </div>
