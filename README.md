@@ -1,2 +1,2 @@
-mi primr repositorio
+Mi primer sistema - diseño programacion web
 
