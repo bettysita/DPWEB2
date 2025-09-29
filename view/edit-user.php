@@ -2,14 +2,19 @@
 <div class="container" style="margin-top:170px">
     <div class="card">
 
-
         <div class="card-header" style="text-align: center;">
-            Registro de usuario
+            Editar datos de usuario
         </div>
+        <?php
+        if (isset($_GET["views"])) {
+            $ruta = explode("/", $_GET["views"]);
+            //echo $ruta[1];
+        }
+        ?>
 
 
-        <form id="frm_user" action="" method="">
-
+        <form id="frm_edit_user" action="" method="">
+            <input type="hidden" id="id_persona" name="id_persona" value="<?= $ruta[1]; ?>">
             <div class="card-body">
                 <div class="mb-3 row">
                     <label for="nro_identidad" class="col-sm-3 col-form-label">Nro de documento</label>
@@ -67,23 +72,27 @@
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="rol" class="col-sm-2 col-form-label">Rol</label>
-                    <div class="col-sm-10">
-                        <select class="form-select" aria-label="default select example" id="rol" name="rol" required>
-                            <option value="admin"></option>
-                            <option value="admin">Administrador</option>
-                            <option value="user">Usuario</option>
-                            <option value="guest">Invitado</option>
-                        </select>
+                        <label for="rol" class="col-sm-2 col-form-label">Rol</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="rol" name="rol" required>
+                                <option value="" disabled selected>Seleccione</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Vendedor">Vendedor</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
                 <div style=" display:flex; justify-content:center; gap:20px">
-                    <button type="submit" class="btn btn-info">Registrar</button>
-                    <button type="reset" class="btn btn-primary" id="clearBtn">Limpiar</button>
-                    <button type="button" onclick="alerth()" class="btn btn-danger">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Actualizar</button>
+                    <a href="<?= BASE_URL ?>users" class="btn btn-danger">Cancelar</a>
+
                 </div>
         </form>
     </div>
 </div>
 <!-- FIN de cuerpo de pagina -->
 <script src="<?php echo BASE_URL ?>view/function/users.js"> </script>
+<script>
+    edit_user();
+</script>
+
+
