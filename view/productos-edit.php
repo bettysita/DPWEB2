@@ -60,6 +60,23 @@
                     </div>
                 </div>
 
+                <div class="mb-3 row">
+                    <label for="imagen" class="col-sm-2 col-form-label">Imagen</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control" id="imagen" name="imagen"  accept="">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="id_proveedor" class="col-sm-2 col-form-label">Proveedor</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="id_proveedor" name="id_proveedor" required>
+                            <option value="">Seleccione un proveedor</option>
+                            <!-- Las opciones se cargarán dinámicamente con JavaScript -->
+                        </select>
+                    </div>
+                </div>
+
                 <div style="display: flex; justify-content:center; gap:20px">
                     <button type="submit" class="btn btn-primary">Actualizar</button>
                     <a href="<?php echo BASE_URL; ?>productos-lista" class="btn btn-secondary">Cancelar</a>
@@ -76,14 +93,18 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Obtener el ID del producto de la URL
         let partes = window.location.pathname.split('/');
         let id = partes[partes.length - 1];
-
-        cargarCategorias(); // Cargar categorías primero
-
+        
         if (!isNaN(id)) {
-            obtenerProductoPorId(id); // Luego cargar el producto para seleccionar la categoría
+            // Cargar categorías y proveedores primero
+            await cargar_categorias();
+            await cargar_proveedores();
+            
+            // Luego cargar los datos del producto
+            await cargarDatosProducto(id);
         }
     });
 </script>

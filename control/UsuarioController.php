@@ -142,3 +142,9 @@ if ($tipo=="eliminar") {
     echo json_encode($respuesta);
     exit;
 }
+if ($tipo=="ver_proveedores") {
+    $proveedores = $objPersona->verProveedores();
+    
+    echo json_encode(['status' => true, 'data' => $proveedores]);
+    exit;
+}

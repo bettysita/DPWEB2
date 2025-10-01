@@ -56,14 +56,24 @@
                 <div class="mb-3 row">
                     <label for="imagen" class="col-sm-2 col-form-label">Imagen</label>
                     <div class="col-sm-10">
-                        <input type="file" class="form-control" id="imagen" name="imagen"  accept="">
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept="">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="id_proveedor" class="col-sm-2 col-form-label">Proveedor</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="id_proveedor" name="id_proveedor" required>
+                            <option value="">Seleccione un proveedor</option>
+                            <!-- Las opciones se cargarán dinámicamente con JavaScript -->
+                        </select>
                     </div>
                 </div>
 
                 <div style="display: flex; justify-content:center; gap:20px">
                     <button type="submit" class="btn btn-primary">Registrar</button>
                     <button type="reset" class="btn btn-info">Limpiar</button>
-                    <button type="button" class="btn btn-danger">Cancelar</button>
+                    <a href="<?php echo BASE_URL; ?>productos-lista" class="btn btn-danger">cancelar</a>
                     <a href="<?php echo BASE_URL; ?>productos-lista" class="btn btn-success">ver</a>
                 </div>
             </div>
@@ -74,7 +84,10 @@
 <script src="<?php echo BASE_URL; ?>view/function/producto.js"></script>
 
 <script>
-    cargar_categorias();
+    document.addEventListener('DOMContentLoaded', function() {
+        cargar_categorias();
+        cargar_proveedores();
+    });
 </script>
 <!--
 <script>

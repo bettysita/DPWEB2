@@ -74,6 +74,8 @@
                             <option value="admin">Administrador</option>
                             <option value="user">Usuario</option>
                             <option value="guest">Invitado</option>
+                            <option value="proveedor">proveedor</option>
+                        </select>
                         </select>
                     </div>
                 </div>

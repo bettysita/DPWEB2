@@ -7,9 +7,10 @@ function validar_form(tipo) {
     let stock = document.getElementById("stock").value;
     let id_categoria = document.getElementById("id_categoria").value;
     let fecha_vencimiento = document.getElementById("fecha_vencimiento").value;
+    let id_proveedor = document.getElementById("id_proveedor").value;
 
 
-    if (codigo == "" || nombre == "" || detalle == "" || precio == "" || stock == "" || id_categoria == "" || fecha_vencimiento == "") {
+    if (codigo == "" || nombre == "" || detalle == "" || precio == "" || stock == "" || id_categoria == "" || fecha_vencimiento == "" || id_proveedor == "") {
 
         Swal.fire({
             icon: 'warning',
@@ -83,34 +84,42 @@ function cancelar() {
 
 async function view_producto() {
     try {
-        let respuesta = await fetch(base_url + 'control/productosController.php?tipo=mostrar_productos', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache'
-        });
+    let respuesta = await fetch(base_url + 'control/productosController.php?tipo=mostrar_productos', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache'
+    });
+    if (!respuesta.ok) {
+            throw new Error(`HTTP error! status: ${respuesta.status}`);
+        }
+        
         let json = await respuesta.json();
-        if (json && json.length > 0) {
-            let html = '';
-            json.forEach((producto, index) => {
-                html += `<tr>
+        
+        if (json.status && json.data && json.data.length > 0) {
+        let html = '';
+        json.data.forEach((producto, index) => {
+            html += `<tr>
                     <td>${index + 1}</td>
                     <td>${producto.codigo || ''}</td>
                     <td>${producto.nombre || ''}</td>
                     <td>${producto.precio || ''}</td>
+                    <td>${producto.stock || ''}</td>
+                    <td>${producto.categoria || ''}</td>
+                    <td>${producto.proveedor || ''}</td>
                     <td>${producto.fecha_vencimiento || ''}</td>
                     <td>
-                        <a href="`+ base_url + `productos-edit/` + producto.id + `" class="btn btn-primary">Editar</a>
+                        <a href="${base_url}productos-edit/${producto.id}" class="btn btn-primary">Editar</a>
                         <button onclick="eliminar(` + producto.id + `)" class="btn btn-danger">Eliminar</button>
                     </td>
                 </tr>`;
-            });
-            document.getElementById('content_productos').innerHTML = html;
-        } else {
-            document.getElementById('content_productos').innerHTML = '<tr><td colspan="6">No hay productos disponibles</td></tr>';
-        }
-    } catch (error) {
-        console.log(error);
-        document.getElementById('content_productos').innerHTML = '<tr><td colspan="6">Error al cargar los productos</td></tr>';
+        });
+        document.getElementById('content_productos').innerHTML = html;
+    } else {
+        document.getElementById('content_productos').innerHTML = '<tr><td colspan="9">No hay productos disponibles</td></tr>';
+    }
+    }catch (error) {
+        console.error("Error al cargar productos:", error);
+        document.getElementById('content_productos').innerHTML = '<tr><td colspan="9">Error al cargar los productos</td></tr>';
     }
 }
 
@@ -146,6 +155,7 @@ async function edit_producto() {
         document.getElementById('stock').value = json.data.stock;
         document.getElementById('id_categoria').value = json.data.id_categoria;
         document.getElementById('fecha_vencimiento').value = json.data.fecha_vencimiento;
+        document.getElementById('id_proveedor').value = json.data.id_proveedor;
 
     } catch (error) {
         console.log('oops, ocurrio un error' + error);
@@ -232,9 +242,6 @@ async function eliminar(id) {
         }
     });
 }
-function nuevoProducto() {
-    window.location.href = base_url + "new-producto";
-}
 
 async function cargar_categorias() {
     let respuesta = await fetch(base_url + 'control/categoriaController.php?tipo=mostrar_categorias', {
@@ -242,14 +249,38 @@ async function cargar_categorias() {
         mode: 'cors',
         cache: 'no-cache'
     });
-    let json = await respuesta.json();
-    let contenido ='<option>Seleccione una categoría</option>';
-    json.data.forEach(categoria => {
-        contenido += '<option value="">'+categoria.nombre+'</option>';
-     
-    });
+    json = await respuesta.json();
+    let contenido = '';
+    if (json.status && json.data) {
+        contenido += '<option value="">Seleccione una categoria</option>';
+        json.data.forEach(categoria => {
+            contenido += '<option value="' + categoria.id + '">' + categoria.nombre + '</option>';
+        });
+    } else {
+        contenido = '<option value = ""> No hay categorias disponibles</option>';
+    }
     //console.log(contenido);
-    document.getElementById('id_categoria').innerHTML = contenido;
+    document.getElementById("id_categoria").innerHTML = contenido;
 
+}
+
+async function cargar_proveedores() {
+    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_proveedores', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache'
+    });
+    json = await respuesta.json();
+    let contenido = '';
+    if (json.status && json.data) {
+        contenido += '<option value="">Seleccione un proveedor</option>';
+        json.data.forEach(proveedor => {
+            contenido += '<option value="' + proveedor.id + '">' + proveedor.razon_social + '</option>';
+        });
+    } else {
+        contenido = '<option value = ""> No hay proveedores disponibles</option>';
+    }
+    //console.log(contenido);
+    document.getElementById("id_proveedor").innerHTML = contenido;
 
 }
