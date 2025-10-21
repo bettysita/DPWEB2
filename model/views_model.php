@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 class viewModel
 {
     protected static function get_view($view)
@@ -9,6 +10,16 @@ class viewModel
             $content = "./views/".$view.".php";
             }else {
                  $content = "404";
+=======
+class viewModel{
+    protected static function get_view($view){
+        $white_list = ["home", "products", "users", "new-user","edit-user", "productos-edit","categories","productos-lista","new-producto","categorias-lista","new-categoria","categorias-edit"];
+        if (in_array($view, $white_list)) {
+            if (is_file("./view/".$view.".php")) {
+                $content = "./view/".$view.".php";
+            }else{
+                $content = "404";
+>>>>>>> bd3482433679cf4fce04f27e62d13fa276e9bdfa
             }
         }elseif ($view == "login") {
             $content = "login";
