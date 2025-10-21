@@ -1,2 +1,2 @@
-Mi primer sistema - diseño programacion web
+mi primer sistema - Diseño y programacion web
 
