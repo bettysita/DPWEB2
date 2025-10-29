@@ -10,6 +10,31 @@ class ProductsModel
     }
     public function registrar($codigo, $nombre, $detalle, $precio, $stock, $id_categoria, $fecha_vencimiento, $imagen, $id_proveedor)
     {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        $codigo            = $this->conexion->real_escape_string($codigo);
+        $nombre            = $this->conexion->real_escape_string($nombre);
+        $detalle           = $this->conexion->real_escape_string($detalle);
+        $precio            = floatval($precio);
+        $stock             = intval($stock);
+        $id_categoria      = intval($id_categoria);
+        $fecha_vencimiento = $this->conexion->real_escape_string($fecha_vencimiento);
+        $id_proveedor      = intval($id_proveedor);
+        $imagen            = $this->conexion->real_escape_string($imagen);
+        $consulta = "INSERT INTO producto (codigo, nombre, detalle, precio, stock, id_categoria, fecha_vencimiento, imagen, id_proveedor) VALUES ('$codigo', '$nombre', '$detalle', $precio, $stock, $id_categoria, '$fecha_vencimiento', '$imagen', '$id_proveedor')";
+        $sql = $this->conexion->query($consulta);
+        if ($sql) {
+            return $this->conexion->insert_id;
+        }
+        return 0;
+    }
+
+    public function existeProducto($codigo)
+    {
+        $consulta = "SELECT * FROM producto WHERE codigo ='$codigo'";
+=======
+>>>>>>> 12a1557f143908d62423beb642b6fda3054c014f
         // Escapar todos los campos para prevenir inyección SQL
         $codigo = $this->conexion->real_escape_string($codigo);
         $nombre = $this->conexion->real_escape_string($nombre);
@@ -38,22 +63,56 @@ class ProductsModel
     {
         $codigo = $this->conexion->real_escape_string($codigo);
         $consulta = "SELECT id FROM producto WHERE codigo='$codigo' LIMIT 1";
+<<<<<<< HEAD
+=======
+>>>>>>> bd3482433679cf4fce04f27e62d13fa276e9bdfa
+>>>>>>> 12a1557f143908d62423beb642b6fda3054c014f
         $sql = $this->conexion->query($consulta);
         return $sql->num_rows;
     }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    public function buscarProductoPorCodigo($codigo)
+    {
+        $consulta = "SELECT id, codigo FROM producto WHERE codigo='$codigo' LIMIT 1";
+        $sql = $this->conexion->query($consulta);
+        return $sql->fetch_object();
+=======
+>>>>>>> 12a1557f143908d62423beb642b6fda3054c014f
     public function existeCategoria($nombre)
     {
         $consulta = "SELECT * FROM producto WHERE nombre='$nombre'";
         $sql = $this->conexion->query($consulta);
         return $sql->num_rows;
+<<<<<<< HEAD
+=======
+>>>>>>> bd3482433679cf4fce04f27e62d13fa276e9bdfa
+>>>>>>> 12a1557f143908d62423beb642b6fda3054c014f
     }
 
     public function mostrarProductos()
     {
         $arr_productos = array();
+<<<<<<< HEAD
         $consulta = "SELECT * FROM producto";
         $sql = $this->conexion->query($consulta);
+=======
+<<<<<<< HEAD
+        $consulta = "SELECT p.*, c.nombre AS categoria
+                 FROM producto p
+                 LEFT JOIN categoria c ON p.id_categoria = c.id";
+        $sql = $this->conexion->query($consulta);
+        if (!$sql) {
+            error_log("Error en query(): " . $this->conexion->error);
+            return $arr_productos;
+        }
+=======
+        $consulta = "SELECT * FROM producto";
+        $sql = $this->conexion->query($consulta);
+>>>>>>> bd3482433679cf4fce04f27e62d13fa276e9bdfa
+>>>>>>> 12a1557f143908d62423beb642b6fda3054c014f
         while ($objeto = $sql->fetch_object()) {
             array_push($arr_productos, $objeto);
         }
@@ -68,6 +127,13 @@ class ProductsModel
         return $sql->fetch_object();
     }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+     public function actualizar($id_cat, $nombre, $detalle) {
+        $consulta = "UPDATE categoria SET nombre='$nombre', detalle='$detalle' WHERE id='$id_cat'";
+=======
+>>>>>>> 12a1557f143908d62423beb642b6fda3054c014f
     public function actualizar($id_producto, $codigo, $nombre, $detalle, $precio, $stock, $id_categoria, $fecha_vencimiento, $id_proveedor, $imagen = null)
     {
         $consulta = "UPDATE producto SET codigo='$codigo', nombre='$nombre', detalle='$detalle', precio='$precio', stock='$stock', id_categoria='$id_categoria', fecha_vencimiento='$fecha_vencimiento', id_proveedor='$id_proveedor'";
@@ -76,6 +142,10 @@ class ProductsModel
             $consulta .= ", imagen='$imagen'";
         }
         $consulta .= " WHERE id='$id_producto'";
+<<<<<<< HEAD
+=======
+>>>>>>> bd3482433679cf4fce04f27e62d13fa276e9bdfa
+>>>>>>> 12a1557f143908d62423beb642b6fda3054c014f
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
@@ -86,4 +156,19 @@ class ProductsModel
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
+<<<<<<< HEAD
 }
+=======
+<<<<<<< HEAD
+    public function existeCodigo($codigo)
+    {
+        $codigo = $this->conexion->real_escape_string($codigo);
+        $consulta = "SELECT id FROM producto WHERE codigo='$codigo' LIMIT 1";
+        $sql = $this->conexion->query($consulta);
+        return $sql->num_rows;
+    }
+}
+=======
+}
+>>>>>>> bd3482433679cf4fce04f27e62d13fa276e9bdfa
+>>>>>>> 12a1557f143908d62423beb642b6fda3054c014f

@@ -1,2 +1,6 @@
 config.php
+<<<<<<< HEAD
 uploads/products/*
+=======
+uploads/productos/*
+>>>>>>> 12a1557f143908d62423beb642b6fda3054c014f

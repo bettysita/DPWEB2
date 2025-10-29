@@ -42,8 +42,20 @@
                             <a class="nav-link" href="<?= BASE_URL ?>users">Users</a>
                         </li>
                         <li class="nav-item">
+<<<<<<< HEAD
                             <i class="bi bi-box-seam"></i>
                             <a class="nav-link" href="<?= BASE_URL ?>new-producto">Products</a>
+=======
+                            <a class="nav-link" href="<?= BASE_URL ?>productos-lista">Products</a>
+                        </li>
+
+
+
+
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= BASE_URL ?>new-categoria">Categories</a>
+>>>>>>> 12a1557f143908d62423beb642b6fda3054c014f
                         </li>
                         <li class="nav-item">
                             <i class="bi bi-menu-button-wide-fill"></i>
