@@ -1,253 +1,231 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
-    <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap' rel='stylesheet'>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Moderno</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
 
-        body {
-            min-height: 100vh;
-            background-image: url('https://img.freepik.com/vector-gratis/fondo-minimalista-gradiente_23-2149976746.jpg?semt=ais_hybrid&w=740');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #6b3fff, #9b6bff, #b085ff);
+      background-size: 200% 200%;
+      animation: moveGradient 8s ease infinite;
+    }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2); /* Cambiado para que se vea claro */
-            z-index: 0;
-        }
+    @keyframes moveGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 900px;
-            padding: 2rem;
-        }
+    .container {
+      width: 850px;
+      height: 480px;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px);
+      display: flex;
+      overflow: hidden;
+    }
 
-        .main-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-        }
+    /* FORMULARIO */
+    .form-section {
+      width: 50%;
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: white;
+      background: transparent;
+    }
 
-        .card-inner-content {
-            display: flex;
-            flex-direction: column;
-        }
+    .form-section h2 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            margin-bottom: 2rem;
-        }
+    .form-section p {
+      text-align: center;
+      color: #ddd;
+      margin-bottom: 30px;
+      font-size: 0.95rem;
+    }
 
-        .sign-in-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
+    .input-box {
+      position: relative;
+      margin-bottom: 25px;
+    }
 
-        .card-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
+    .input-box input {
+      width: 100%;
+      padding: 14px 50px;
+      border: none;
+      border-radius: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
 
-        .welcome-section {
-            color: white;
-        }
+    .input-box input::placeholder {
+      color: rgba(255, 255, 255, 0.8);
+    }
 
-        .welcome-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
+    .input-box input:focus {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
 
-        .welcome-subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-        }
+    .input-box i {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      opacity: 0.8;
+      font-size: 1.2rem;
+    }
 
-        .welcome-text {
-            font-size: 1rem;
-            margin-bottom: 2rem;
-        }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #b78cff, #8758ff);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 5px 15px rgba(125, 78, 255, 0.4);
+      margin-top: 10px;
+    }
 
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-        }
+    .btn:hover {
+      transform: scale(1.03);
+      background: linear-gradient(90deg, #9d6eff, #c6a2ff);
+    }
 
-        .social-icon {
-            color: white;
-            font-size: 1.5rem;
-            text-decoration: none;
-        }
+    .regi a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 0.9rem;
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      opacity: 0.9;
+      transition: 0.3s;
+    }
 
-        .login-section {
-            display: flex;
-            flex-direction: column;
-        }
+    .regi a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 1rem;
-        }
+    /* PANEL DERECHO */
+    .info-section {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+      position: relative;
+      background: transparent;
+    }
 
-        .input-label {
-            color: white;
-            font-size: 0.95rem;
-            font-weight: 500;
-            margin-bottom: 0.4rem;
-        }
+    .info-content {
+      z-index: 1;
+    }
 
-        .form-input {
-            padding: 0.75rem;
-            border: none;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            font-size: 1rem;
-            outline: none;
-        }
+    .info-content h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
 
-        .form-input::placeholder {
-            color: rgba(155, 10, 10, 0.7);
-        }
+    .info-content p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 280px;
+      margin: 0 auto;
+    }
 
-        .form-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 1rem 0;
-        }
+    /* eliminamos cualquier capa blanca */
+    .info-section::before {
+      content: none;
+    }
 
-        .forgot-link {
-            color: white;
-            font-size: 0.9rem;
-            text-decoration: none;
-        }
+    @media (max-width: 850px) {
+      .container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+      }
 
-        .submit-btn {
-            background: #420adbff;
-            border: none;
-            padding: 1rem;
-            color: white;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: 0.3s ease;
-        }
+      .form-section, .info-section {
+        width: 100%;
+        padding: 40px;
+      }
+    }
+  </style>
 
-        .submit-btn:hover {
-            background: #8711e7ff;
-        }
-
-        .signup-link {
-            color: white;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .signup-link a {
-            color: #fca5a5;
-            text-decoration: none;
-        }
-
-        .demo-info {
-            color: white;
-            font-size: 0.8rem;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .card-content {
-                grid-template-columns: 1fr;
-            }
-
-            .welcome-title {
-                font-size: 2rem;
-            }
-        }
-    </style>
-    <script>
-        const base_url = " ";
-    </script>
+  <script>
+    const base_url = '<?= BASE_URL;?>';
+  </script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="main-card">
-            <div class="card-inner-content">
-                <div class="card-header"></div>
+  <div class="container">
+    <!-- FORMULARIO -->
+    <div class="form-section">
+      <h2>LOGIN</h2>
+      <p>Inicia sesión en tu cuenta</p>
 
-                <div class="card-content">
-                    <!-- Lado izquierdo: bienvenida -->
-                    <div class="welcome-section">
-                        <h2 class="welcome-title">¡Bienvenido!</h2>
-                        <h3 class="welcome-subtitle">¡Explora con nosotros!</h3>
-                        <p class="welcome-text">
-                            Autentícate para acceder a todos nuestros servicios y novedades.
-                        </p>
-                    </div>
-
-                    <!-- Lado derecho: formulario -->
-                    <div class="login-section">
-                        <form id="frm_login">
-                            <div class="form-group">
-                                <label class="input-label" for="username">Usuario</label>
-                                <input type="text" id="username" name="username" class="form-input" placeholder="Ingrese su usuario">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="input-label" for="password">Contraseña</label>
-                                <input type="password" id="password" name="password" class="form-input" placeholder="Ingrese su contraseña">
-                            </div>
-
-                            <button type="button" class="submit-btn" onclick="iniciar_sesion()">Iniciar sesión</button>
-                        </form>
-
-                        <div class="signup-link">
-                            ¿No tienes una cuenta? <a href="#">Regístrate</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <form id="frm_login">
+        <div class="input-box">
+          <i class="fas fa-user"></i>
+          <input type="text" id="username" name="username" required placeholder="Usuario">
         </div>
+
+        <div class="input-box">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" name="password" required placeholder="Contraseña">
+        </div>
+
+        <button class="btn" type="button" onclick="iniciar_sesion();">Iniciar Sesión</button>
+
+        <div class="regi">
+          <a href="#">¿No tienes cuenta? Crear</a>
+        </div>
+      </form>
     </div>
 
-</body>
-<script src="<?= BASE_URL; ?>view/function/users.js"></script>
+    <!-- PANEL DERECHO -->
+    <div class="info-section">
+      <div class="info-content">
+        <h2>Bienvenido de nuevo</h2>
+        <p>Nos alegra verte otra vez. Ingresa tus credenciales para continuar con tu experiencia personalizada.</p>
+      </div>
+    </div>
+  </div>
 
+  <script src="https://kit.fontawesome.com/9f1b2a58c6.js" crossorigin="anonymous"></script>
+  <script src="<?= BASE_URL; ?>view/function/user.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
 </html>

@@ -4,9 +4,9 @@
     <div class="container" style="margin-top: 100px;">
         <div class="card">
             <div class="card-header" style="text-align:center;">
-                Registro de Usuario
+                Registro de Proveedor
             </div>
-            <form id="frm_user" action="" method="">
+            <form id="frm_proveedor" action="" method="">
                 <div class="card-body">
 
                     <div class="mb-3 row">
@@ -69,11 +69,8 @@
                     <div class="mb-3 row">
                         <label for="rol" class="col-sm-2 col-form-label">Rol</label>
                         <div class="col-sm-10">
-                            <select class="form-select" aria-label="Default select example" id="rol" name="rol">
-                                <option value="" disabled selected>seleccione</option>
-                                <option value="admin">Administrador</option>
-                                <option value="user">Usuario</option>
-                                <option value="proveedor">Proveedor</option>
+                            <select class="form-select" aria-label="Default select example" id="rol" name="rol" required readonly>
+                                <option value="proveedor" selected>Proveedor</option>
                             </select>
                         </div>
                     </div>
@@ -82,11 +79,12 @@
                         <button type="submit" class="btn btn-primary">Registrar</button>
                         <button type="reset" class="btn btn-info">Limpiar</button>
                         <button type="button" class="btn btn-danger">Cancelar</button>
+                        <a href="<?php echo BASE_URL; ?>proveedor-list" class="btn btn-success">ver</a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
     <!--fin de cuerpo de pagina-->
-    <script src="<?php echo BASE_URL; ?>view/function/user.js"></script>
+    <script src="<?php echo BASE_URL; ?>view/function/proveedor.js"></script>
     

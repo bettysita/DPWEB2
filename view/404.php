@@ -1,95 +1,71 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Error 404 - Página no encontrada</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>failed</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-
         body {
-            background-image: url('https://img.freepik.com/vector-gratis/fondo-textura-futurista-pastel-abstracto_53876-115746.jpg?semt=ais_hybrid&w=740');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            color: #fff;
-            height: 100vh;
+            background-color: black;
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        .error {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
             text-align: center;
+            flex-direction: column;
         }
 
-        .container {
-            max-width: 600px;
-            padding: 2rem;
+        .tex {
+            font-size: 2rem;
+            margin: 6px 0;
         }
 
-        .error-code {
-            font-size: 10rem;
-            font-weight: 700;
-            color: #fff;
-            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+        .boton {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
         }
 
-        .message {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .description {
-            font-size: 1rem;
-            margin-bottom: 2rem;
-            color: #000000ff;
-        }
-
-        .btn-home {
-            padding: 0.75rem 1.5rem;
-            background-color: #fff;
-            color: #764ba2;
+        .btn {
+            color: white;
+            background: blue;
+            padding: 15px;
+            border-radius: 25px;
             border: none;
-            border-radius: 30px;
-            font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
-            text-decoration: none;
-            transition: 0.3s ease;
+            font-size: 1rem;
+            transition: .4s;
         }
 
-        .btn-home:hover {
-            background-color: #ddd;
-        }
-
-        @media (max-width: 480px) {
-            .error-code {
-                font-size: 6rem;
-            }
-
-            .message {
-                font-size: 1.4rem;
-            }
+        .btn:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 .5px 10px blue;
         }
     </style>
 </head>
 
 <body>
-
-    <div class="container">
-        <div class="error-code">404</div>
-        <div class="message">¡Ups! Página no encontrada</div>
-        <div class="description">
-            La página que buscas no existe o ha sido movida. <br>Por favor, vuelve al inicio.
+    <div class="error">
+        <p class="tex">ERROR</p>
+        <h1 class="tex">404</h1>
+        <p class="tex">PAGE NOT FOUND</p>
+        <br>
+        <div class="boton">
+            <button type="button" class="btn" href="login.php">Volver al Inicio</button>
         </div>
-        <a href="index.html" class="btn-home">Volver al Inicio</a>
     </div>
 
 </body>
-
 </html>
-
