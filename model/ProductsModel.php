@@ -85,4 +85,17 @@ class ProductsModel
         $sql = $this->conexion->query($consulta);
         return $sql->num_rows;
     }
+
+
+
+    public function mostrarMisProductos()
+    {
+        $arr_productos = array();
+        $consulta = "SELECT nombre, precio, id_categoria, imagen FROM producto";
+        $sql = $this->conexion->query($consulta);
+        while ($objeto = $sql->fetch_object()) {
+            array_push($arr_productos, $objeto);
+        }
+        return $arr_productos;
+    }
 }

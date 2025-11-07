@@ -1,9 +1,14 @@
 <?php
 require_once("../model/ProductsModel.php");
+require_once("../model/CategoriaModel.php");
+require_once("../model/UsuarioModel.php");
+
 
 $objProducto = new ProductsModel();
-
+$objCategoria = new CategoriaModel();
+$objPersona = new UsuarioModel();
 $tipo = $_GET['tipo'];
+
 if ($tipo === "registrar") {
     $codigo            = $_POST['codigo'] ?? '';
     $nombre            = $_POST['nombre'] ?? '';
@@ -127,4 +132,36 @@ if($tipo == "eliminar"){
         echo json_encode($arrResponse);
         exit;
     }
+}
+
+
+
+if ($tipo == "mostrarMisProductos") {
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+    $productos = $objProducto->mostrarMisProductos();
+    $arrProduct = array();
+    
+    if (count($productos)) {
+        foreach ($productos as $producto) {
+            // Solo obtenemos la categoría que necesitamos
+            $categoria = $objCategoria->ver($producto->id_categoria);
+            $nombreCategoria = ($categoria && property_exists($categoria, 'nombre')) 
+                ? $categoria->nombre 
+                : "Sin categoría";
+
+            // Creamos un objeto simplificado con solo los campos necesarios
+            $productoSimple = new stdClass();
+            $productoSimple->imagen = $producto->imagen;
+            $productoSimple->nombre = $producto->nombre;
+            $productoSimple->precio = $producto->precio;
+            $productoSimple->categoria = $nombreCategoria;
+
+            array_push($arrProduct, $productoSimple);
+        }
+        $respuesta = array('status' => true, 'msg' => '', 'data' => $arrProduct);
+    }
+    
+    header('Content-Type: application/json');
+    echo json_encode($respuesta);
+    exit;
 }

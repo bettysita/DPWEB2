@@ -42,6 +42,9 @@
                         <a class="nav-link" href="#">Shops</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="<?= BASE_URL ?>productos">Vista-Productos</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#">Sales</a>
                     </li>
 
