@@ -56,7 +56,7 @@ if ($tipo === "registrar") {
         echo json_encode(['status' => false, 'msg' => 'No se pudo guardar la imagen']);
         exit;
     }
-    $id = $objProducto->registrar($codigo,$nombre,$detalle,$precio,$stock,$id_categoria,$fecha_vencimiento,$rutaRelativa, $id_proveedor);
+    $id = $objProducto->registrar($codigo, $nombre, $detalle, $precio, $stock, $id_categoria, $fecha_vencimiento, $rutaRelativa, $id_proveedor);
     if ($id > 0) {
         echo json_encode(['status' => true, 'msg' => 'Registrado correctamente', 'id' => $id, 'img' => $rutaRelativa]);
     } else {
@@ -76,10 +76,10 @@ if ($tipo == "ver") {
     $respuesta = array('status' => false, 'msg' => '');
     $id_producto = $_POST['id_producto'];
     $producto = $objProducto->ver($id_producto);
-    if($producto){
-        $respuesta ['status'] = true;
-        $respuesta ['data'] = $producto;
-    }else {
+    if ($producto) {
+        $respuesta['status'] = true;
+        $respuesta['data'] = $producto;
+    } else {
         $respuesta['msg'] = "Error, categoria no existe";
     }
     echo json_encode($respuesta);
@@ -98,19 +98,18 @@ if ($tipo == "actualizar") {
 
     if ($id_producto == "" || $codigo == "" || $nombre == "" || $detalle == "" || $precio == "" || $stock == "" || $id_categoria == "" || $fecha_vencimiento == "") {
         $arrResponse = array('status' => false, 'msg' => 'Error, campos vacios');
-    }else {
+    } else {
         $existeID = $objProducto->ver($id_producto);
-        if(!$existeID){
-            $arrResponse = array('status' =>false, 'msg' => 'Error, categoria no existe');
+        if (!$existeID) {
+            $arrResponse = array('status' => false, 'msg' => 'Error, categoria no existe');
             echo json_encode($arrResponse);
-            exit; 
-        }else {
+            exit;
+        } else {
             $actualizar = $objProducto->actualizar($id_producto, $codigo, $nombre, $detalle, $precio, $stock, $id_categoria, $fecha_vencimiento);
-            if($actualizar){
+            if ($actualizar) {
                 $arrResponse = array('status' => true, 'msg' => 'Actualizado correctamente');
-                
-            }else {
-                $arrResponse = array('status' => false, 'msg' => $actualizar);  
+            } else {
+                $arrResponse = array('status' => false, 'msg' => $actualizar);
             }
             echo json_encode($arrResponse);
             exit;
@@ -118,15 +117,15 @@ if ($tipo == "actualizar") {
     }
 }
 
-if($tipo == "eliminar"){
+if ($tipo == "eliminar") {
     $id_producto = $_POST['id_producto'];
-    if($id_producto == ""){
+    if ($id_producto == "") {
         $arrResponse = array('status' => false, 'msg' => 'Error, id vacio');
-    }else{
+    } else {
         $eliminar = $objProducto->eliminar($id_producto);
         if ($eliminar) {
             $arrResponse = array('status' => true, 'msg' => 'Producto eliminado');
-        }else{
+        } else {
             $arrResponse = array('status' => false, 'msg' => 'Error al eliminar producto');
         }
         echo json_encode($arrResponse);
@@ -140,13 +139,13 @@ if ($tipo == "mostrarMisProductos") {
     $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $productos = $objProducto->mostrarMisProductos();
     $arrProduct = array();
-    
+
     if (count($productos)) {
         foreach ($productos as $producto) {
             // Solo obtenemos la categoría que necesitamos
             $categoria = $objCategoria->ver($producto->id_categoria);
-            $nombreCategoria = ($categoria && property_exists($categoria, 'nombre')) 
-                ? $categoria->nombre 
+            $nombreCategoria = ($categoria && property_exists($categoria, 'nombre'))
+                ? $categoria->nombre
                 : "Sin categoría";
 
             // Creamos un objeto simplificado con solo los campos necesarios
@@ -160,8 +159,24 @@ if ($tipo == "mostrarMisProductos") {
         }
         $respuesta = array('status' => true, 'msg' => '', 'data' => $arrProduct);
     }
-    
+
     header('Content-Type: application/json');
     echo json_encode($respuesta);
     exit;
+}
+
+if ($tipo == "buscar_producto_venta") {
+    $dato = $_POST['dato'];
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+    $productos = $objProducto->buscarProductoByNombreOrCodigo($dato);
+    $arrProduct = array();
+    if (count($productos)) {
+        foreach ($productos as $producto) {
+            $categoria = $objCategoria->ver($producto->id_categoria);
+            $producto->categoria = $categoria->nombre;
+            array_push($arrProduct, $producto);
+        }
+        $respuesta = array('status' => true, 'msg' => '', 'data' => $arrProduct);
+    }
+    echo json_encode($respuesta);
 }

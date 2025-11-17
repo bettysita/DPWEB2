@@ -16,6 +16,7 @@
                 <th>Stock</th>
                 <th>Categoria</th>
                 <th>F.V.</th>
+                <th>Codigo barra</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -26,3 +27,4 @@
 </div>
 
 <script src="<?php echo BASE_URL; ?>views/function/Producto.js"></script>
+<script src="<?php echo BASE_URL; ?>views/function/JsBarcode.all.min.js"></script>
