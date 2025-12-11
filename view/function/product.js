@@ -210,30 +210,35 @@ async function listar_productos_venta() {
             contenidot.innerHTML = ``;
             json.data.forEach(producto => {
                 let producto_list = ``;
-                producto_list += `<div class="card m-2 col-12">
+                producto_list += `<div class="card m-2">
                                 <img src="${base_url + producto.imagen}" alt="" width="100%" height="150px">
                                 <p class="card-text">${producto.nombre}</p>
                                 <p>Precio: ${producto.precio}</p>
                                 <p>Stock: ${producto.stock}</p>
-                                <button onclick="agregar_producto_venta(${producto.id})" class="btn btn-primary">Agregar</button>
+                                <div class="input-group mb-2">
+                                    <input type="number" class="form-control" id="cantidad_${producto.id}" value="1" min="1" max="${producto.stock}">
+                                    <button onclick="agregar_producto_venta(${producto.id}, ${producto.precio})" class="btn btn-primary">Agregar</button>
+                                </div>
                             </div>`;
 
                 let nueva_fila = document.createElement("div");
-                nueva_fila.className = "div col-md-3 col-sm-6 col-xs-12";
+                nueva_fila.className = "col-md-3 col-sm-6 col-xs-12";
                 nueva_fila.innerHTML = producto_list;
                 cont++;
                 contenidot.appendChild(nueva_fila);
-                let id = document.getElementById('id_producto_venta');
-                let precio = document.getElementById('producto_precio_venta');
-                let cantidad = document.getElementById('producto_cantidad_venta');
-                id.value = producto.id;
-                precio.value = producto.precio;
-                cantidad.value = 1;
             });
         }
     } catch (e) {
         console.log('error en mostrar producto ' + e);
     }
+}
+
+function agregar_producto_venta(id, precio) {
+    let cantidad = document.getElementById('cantidad_' + id).value;
+    document.getElementById('id_producto_venta').value = id;
+    document.getElementById('producto_precio_venta').value = precio;
+    document.getElementById('producto_cantidad_venta').value = cantidad;
+    agregar_producto_temporal();
 }
 if (document.getElementById('productos_venta')) {
     listar_productos_venta();
