@@ -2,7 +2,6 @@
 require_once("../model/CategoriaModel.php");
 
 $objCategoria = new CategoriaModel();
-
 $tipo = $_GET['tipo'];
 
 if ($tipo == "ver_categorias") {

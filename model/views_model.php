@@ -3,19 +3,18 @@ class viewModel
 {
     protected static function get_view($view)
     {
-       $white_list = ["home","products","new-products","edit-products","users","new-user","edit-user","new-categoria","categoria-edit","categoria-lista","clientes","new-clientes","edit-clientes","proveedor","new-proveedor","edit-proveedor","productos"];
-       if (in_array($view,$white_list)) {
-            if (is_file("./views/".$view.".php")) {
-            $content = "./views/".$view.".php";
-            }else {
-                 $content = "404";
+        $white_list = ["home", "products", "users", "new-user","edit-user", "products", "new-product", "edit-product", "category", "new-category", "edit-category", "orders", "order-details", "profile", "settings","clients","new-client","edit-client", "providers", "new-provider", "edit-provider", "venta", "shoops"];
+        if (in_array($view, $white_list)) {
+            if (is_file("./view/" . $view . ".php")) {
+                $content = "./view/" . $view . ".php";
+            } else {
+                $content = "404";
             }
-        }elseif ($view == "login") {
+        } elseif ($view == "login") {
             $content = "login";
-         }else {
+        } else {
             $content = "404";
-       }
-       return $content;
+        }
+        return $content;
     }
 }
-
