@@ -23,6 +23,12 @@ class VentaModel
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
+    public function actualizarCantidadTemporalPorId($id, $cantidad)
+    {
+        $consulta = "UPDATE temporal_venta SET cantidad='$cantidad' WHERE id='$id'";
+        $sql = $this->conexion->query($consulta);
+        return $sql;
+    }
     public function buscarTemporales()
     {
         $arr_temporal = array();

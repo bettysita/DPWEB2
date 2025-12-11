@@ -1,0 +1,1 @@
+- [x] Corregir el manejo de la imagen en la funcionalidad de actualizar producto en ProductoController.php.

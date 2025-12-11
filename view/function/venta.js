@@ -45,7 +45,7 @@ async function listarTemporales() {
                 let nueva_fila = document.createElement("tr");
                 nueva_fila.innerHTML = `
                     <td>${temp.producto}</td>
-                    <td>${temp.cantidad}</td>
+                    <td><input type="number" class="form-control" value="${temp.cantidad}" min="1" onchange="actualizarCantidad(${temp.id}, this.value)"></td>
                     <td>$${temp.precio}</td>
                     <td>$${temp.subtotal}</td>
                     <td><button class="btn btn-danger btn-sm" onclick="eliminarTemporal(${temp.id})">Eliminar</button></td>
@@ -81,6 +81,56 @@ async function eliminarTemporal(id) {
         }
     } catch (error) {
         console.log("error en eliminar temporal " + error);
+    }
+}
+
+async function actualizarCantidad(id, cantidad) {
+    const datos = new FormData();
+    datos.append('id', id);
+    datos.append('cantidad', cantidad);
+    try {
+        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=actualizarCantidadTemporalPorId', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+        json = await respuesta.json();
+        if (json.status) {
+            // Actualizar subtotales y totales sin recargar toda la lista
+            actualizarTotales();
+            // También actualizar el subtotal de la fila específica
+            let fila = document.querySelector(`input[onchange*="${id}"]`).closest('tr');
+            let precio = parseFloat(fila.cells[2].innerText.replace('$', ''));
+            let subtotal = precio * parseInt(cantidad);
+            fila.cells[3].innerHTML = '$' + subtotal.toFixed(2);
+        }
+    } catch (error) {
+        console.log("error en actualizar cantidad " + error);
+    }
+}
+
+async function actualizarTotales() {
+    try {
+        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=listarTemporales', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache'
+        });
+        json = await respuesta.json();
+        if (json.status) {
+            let subtotal = 0;
+            json.data.forEach(temp => {
+                subtotal += temp.subtotal;
+            });
+            let igv = subtotal * 0.18;
+            let total = subtotal + igv;
+            document.getElementById('subtotal').innerHTML = '$' + subtotal.toFixed(2);
+            document.getElementById('igv').innerHTML = '$' + igv.toFixed(2);
+            document.getElementById('total').innerHTML = '$' + total.toFixed(2);
+        }
+    } catch (e) {
+        console.log('error en actualizar totales ' + e);
     }
 }
 

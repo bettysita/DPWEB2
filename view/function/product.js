@@ -215,10 +215,7 @@ async function listar_productos_venta() {
                                 <p class="card-text">${producto.nombre}</p>
                                 <p>Precio: ${producto.precio}</p>
                                 <p>Stock: ${producto.stock}</p>
-                                <div class="input-group mb-2">
-                                    <input type="number" class="form-control" id="cantidad_${producto.id}" value="1" min="1" max="${producto.stock}">
-                                    <button onclick="agregar_producto_venta(${producto.id}, ${producto.precio})" class="btn btn-primary">Agregar</button>
-                                </div>
+                                <button onclick="agregar_producto_venta(${producto.id}, ${producto.precio})" class="btn btn-primary">Agregar</button>
                             </div>`;
 
                 let nueva_fila = document.createElement("div");
@@ -234,10 +231,9 @@ async function listar_productos_venta() {
 }
 
 function agregar_producto_venta(id, precio) {
-    let cantidad = document.getElementById('cantidad_' + id).value;
     document.getElementById('id_producto_venta').value = id;
     document.getElementById('producto_precio_venta').value = precio;
-    document.getElementById('producto_cantidad_venta').value = cantidad;
+    document.getElementById('producto_cantidad_venta').value = 1;
     agregar_producto_temporal();
 }
 if (document.getElementById('productos_venta')) {

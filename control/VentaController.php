@@ -35,6 +35,9 @@ if ($tipo == "listarTemporales") {
             $temp->subtotal = $temp->precio * $temp->cantidad;
             array_push($arrTemp, $temp);
         }
+        usort($arrTemp, function($a, $b) {
+            return strcasecmp($a->producto, $b->producto);
+        });
         $respuesta = array('status' => true, 'msg' => '', 'data' => $arrTemp);
     }
     echo json_encode($respuesta);
@@ -46,6 +49,17 @@ if ($tipo == "eliminarTemporal") {
     $eliminar = $objVenta->eliminarTemporal($id);
     if ($eliminar) {
         $respuesta = array('status' => true, 'msg' => 'eliminado');
+    }
+    echo json_encode($respuesta);
+}
+
+if ($tipo == "actualizarCantidadTemporalPorId") {
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+    $id = $_POST['id'];
+    $cantidad = $_POST['cantidad'];
+    $actualizar = $objVenta->actualizarCantidadTemporalPorId($id, $cantidad);
+    if ($actualizar) {
+        $respuesta = array('status' => true, 'msg' => 'cantidad actualizada');
     }
     echo json_encode($respuesta);
 }
