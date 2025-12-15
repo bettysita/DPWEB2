@@ -156,3 +156,14 @@ if ($tipo == "ver_proveedores") {
     }
     echo json_encode($respuesta);
 }
+if ($tipo == "buscar_cliente") {
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+    $dni = $_POST['dni'];
+    $cliente = $objPersona->buscarPersonaPorNroIdentidad($dni);
+    if ($cliente && $cliente->rol == 'cliente') {
+        $respuesta = array('status' => true, 'msg' => '', 'data' => $cliente);
+    } else {
+        $respuesta = array('status' => false, 'msg' => 'cliente no encontrado');
+    }
+    echo json_encode($respuesta);
+}

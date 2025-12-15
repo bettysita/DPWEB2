@@ -31,4 +31,3 @@
 
 <script src="<?php echo BASE_URL; ?>view/function/categories.js"></script>
     
-

@@ -86,7 +86,7 @@ async function view_clients() {
                             <td>${usuario.rol}</td>
                             <td>${estado}</td>
                             <td>
-                                <a href="`+ base_url + `edit-client/` + usuario.id + `">Editar</a>
+                                <button class="btn btn-primary" onclick="window.location.href='`+ base_url + `edit-client/` + usuario.id + `'">Editar</button>
                                 <button class="btn btn-danger" onclick="fn_eliminar(` + usuario.id + `);">Eliminar</button>
                             </td>
                 `;

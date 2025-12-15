@@ -66,18 +66,34 @@ if ($tipo == "actualizarCantidadTemporalPorId") {
 
 if ($tipo == "registrarVenta") {
     $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
-    // Assuming user id from session, but for now hardcoded or get from post
-    $id_usuario = 1; // TODO: get from session
+    $id_cliente = $_POST['id_cliente'];
+    $fecha_venta = $_POST['fecha_venta'];
+    $id_vendedor = 1; // TODO: get from session
     $temporales = $objVenta->buscarTemporales();
-    if (count($temporales) > 0) {
-        $total = 0;
-        foreach ($temporales as $temp) {
-            $total += $temp->precio * $temp->cantidad;
+    if (count($temporales) > 0 && !empty($id_cliente)) {
+        // Generate correlativo
+        $ultima_venta = $objVenta->buscar_ultima_venta();
+        $correlativo = $ultima_venta ? $ultima_venta->codigo + 1 : 1;
+        // Insert into venta table
+        $id_venta = $objVenta->registrar_venta($id_cliente, $fecha_venta, $id_vendedor, $correlativo);
+        if ($id_venta > 0) {
+            // Insert details
+            foreach ($temporales as $temp) {
+                $objVenta->registrar_detalle_venta($id_venta, $temp->id_producto, $temp->cantidad, $temp->precio);
+            }
+            // Calculate total
+            $total = 0;
+            foreach ($temporales as $temp) {
+                $total += $temp->precio * $temp->cantidad;
+            }
+            // Clear temporals
+            $objVenta->eliminarTemporales();
+            $respuesta = array('status' => true, 'msg' => 'venta registrada', 'codigo' => $correlativo, 'total' => $total);
+        } else {
+            $respuesta = array('status' => false, 'msg' => 'error al registrar venta');
         }
-        // Insert into venta table, assuming table exists
-        // For now, just clear temporals
-        $objVenta->eliminarTemporales();
-        $respuesta = array('status' => true, 'msg' => 'venta registrada', 'total' => $total);
+    } else {
+        $respuesta = array('status' => false, 'msg' => 'no hay productos o cliente no seleccionado');
     }
     echo json_encode($respuesta);
 }

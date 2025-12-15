@@ -151,6 +151,62 @@ async function realizarVenta() {
     }
 }
 
+async function buscar_cliente_venta() {
+    let dni = document.getElementById('cliente_dni').value;
+    if (dni == '') {
+        alert('Ingrese el DNI del cliente');
+        return;
+    }
+    try {
+        const datos = new FormData();
+        datos.append('dni', dni);
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=buscar_cliente', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+        json = await respuesta.json();
+        if (json.status) {
+            document.getElementById('cliente_nombre').value = json.data.razon_social;
+            document.getElementById('id_cliente_venta').value = json.data.id;
+        } else {
+            alert(json.msg);
+            document.getElementById('cliente_nombre').value = '';
+            document.getElementById('id_cliente_venta').value = '';
+        }
+    } catch (error) {
+        console.log("error en buscar cliente " + error);
+    }
+}
+
 if (document.getElementById('lista_compra')) {
     listarTemporales();
+}
+
+async function registrarVenta() {
+    let id_cliente = document.getElementById('id_cliente_venta').value;
+    let fecha_venta = document.getElementById('fecha_venta').value;
+    try {
+        const datos = new FormData();
+        datos.append('id_cliente', id_cliente);
+        datos.append('fecha_venta', fecha_venta);
+        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=registrarVenta', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+        json = await respuesta.json();
+        if (json.status) {
+            alert("Venta registrada con exito. Codigo: " + json.codigo + " Total: $" + json.total.toFixed(2));
+            window.location.reload();
+        } else {
+            alert("Error al registrar la venta: " + json.msg);
+        }
+        
+    } catch (error) {
+        console.log("error en registrar venta " + error);
+        
+    }
 }

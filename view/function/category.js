@@ -1,7 +1,7 @@
 
 async function view_categorias() {
     try {
-        let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=ver_categorias', {
+        let respuesta = await fetch(base_url + 'control/CategoriesController.php?tipo=ver_categorias', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
@@ -20,7 +20,7 @@ async function view_categorias() {
                             <td>${categoria.nombre}</td>
                             <td>${categoria.detalle}</td>
                             <td>
-                                <a href="`+ base_url + `edit-category/` + categoria.id + `">Editar</a>
+                                <button class="btn btn-primary" onclick="window.location.href='`+ base_url + `edit-category/` + categoria.id + `'">Editar</button>
                                 <button class="btn btn-danger" onclick="fn_eliminar(` + categoria.id + `);">Eliminar</button>
                             </td>
                 `;
@@ -71,7 +71,7 @@ async function registrarCategoria() {
         //capturar campos de formulario (HTML)
         const datos = new FormData(frm_category);
         //enviar datos a controlador
-        let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=registrar', {
+        let respuesta = await fetch(base_url + 'control/CategoriesController.php?tipo=registrar', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -97,7 +97,7 @@ async function edit_categoria() {
         const datos = new FormData();
         datos.append('id_categoria', id_categoria);
 
-        let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=ver', {
+        let respuesta = await fetch(base_url + 'control/CategoriesController.php?tipo=ver', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -127,7 +127,7 @@ if (document.querySelector('#frm_edit_category')) {
 
 async function actualizarCategoria() {
     const datos = new FormData(frm_edit_category);
-    let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=actualizar', {
+    let respuesta = await fetch(base_url + 'control/CategoriesController.php?tipo=actualizar', {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
@@ -152,7 +152,7 @@ async function fn_eliminar(id) {
 async function eliminar(id) {
     let datos = new FormData();
     datos.append('id_categoria', id);
-    let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=eliminar', {
+    let respuesta = await fetch(base_url + 'control/CategoriesController.php?tipo=eliminar', {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',

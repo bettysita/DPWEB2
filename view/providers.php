@@ -1,5 +1,5 @@
 <div class="container">
-    <h4 class="mt-3 mb-3">Lista de Proveedores</h4>
+    <h4 class="mt-3 mb-3 text-center">Lista de Proveedores</h4>
     <a href="<?= BASE_URL ?>new-provider" class="btn btn-primary">Nuevo +</a>
     <br><br>
     <table class="table table-bordered table-striped">
@@ -14,9 +14,8 @@
                 <th>Acciones</th>
             </tr>
         </thead>
-        <tbody id="content_providers">
-
-        </tbody>
+        <tbody id="content_providers"></tbody>
     </table>
 </div>
+
 <script src="<?= BASE_URL ?>view/function/user.js"></script>
