@@ -23,6 +23,7 @@
         </div>
     </div>
     <div class="col-3">
+
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Lista de Compra</h5>
@@ -97,6 +98,14 @@
                 input.addEventListener('keydown', (event) => {
                     if (event.key == 'Enter') {
                         agregar_producto_temporal();
+                    }
+                })
+
+                let inputDni = document.getElementById("cliente_dni");
+                inputDni.addEventListener('keydown', (event) => {
+                    if (event.key == 'Enter') {
+                        event.preventDefault(); // Prevent form submission if inside a form
+                        buscar_cliente_venta();
                     }
                 })
             </script>

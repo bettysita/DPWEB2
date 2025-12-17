@@ -160,10 +160,14 @@ if ($tipo == "buscar_cliente") {
     $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $dni = $_POST['dni'];
     $cliente = $objPersona->buscarPersonaPorNroIdentidad($dni);
-    if ($cliente && $cliente->rol == 'cliente') {
-        $respuesta = array('status' => true, 'msg' => '', 'data' => $cliente);
+    if ($cliente) {
+        if (strcasecmp(trim($cliente->rol), 'Cliente') == 0) {
+            $respuesta = array('status' => true, 'msg' => '', 'data' => $cliente);
+        } else {
+            $respuesta = array('status' => false, 'msg' => 'El usuario encontrado no es un Cliente (Rol: ' . $cliente->rol . ')');
+        }
     } else {
-        $respuesta = array('status' => false, 'msg' => 'cliente no encontrado');
+        $respuesta = array('status' => false, 'msg' => 'Cliente no encontrado con ese DNI');
     }
     echo json_encode($respuesta);
 }

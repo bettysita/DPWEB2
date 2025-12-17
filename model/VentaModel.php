@@ -79,6 +79,15 @@ class VentaModel
         return $sql;
     }
 
+    public function buscarVentasPorDniCliente($dni){
+        $arr_ventas = array();
+        $consulta = "SELECT v.id, v.codigo, v.fecha_hora, p.razon_social, p.nro_identidad FROM venta v INNER JOIN persona p ON v.id_cliente = p.id WHERE p.nro_identidad = '$dni'";
+        $sql = $this->conexion->query($consulta);
+        while ($objeto = $sql->fetch_object()) {
+            array_push($arr_ventas, $objeto);
+        }
+        return $arr_ventas;
+    }
 
 
 
@@ -89,6 +98,6 @@ class VentaModel
 
 
 
-    
+
 }
 

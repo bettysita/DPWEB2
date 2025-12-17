@@ -97,3 +97,15 @@ if ($tipo == "registrarVenta") {
     }
     echo json_encode($respuesta);
 }
+
+if ($tipo == "buscarVentasPorDni") {
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+    $dni = $_POST['dni'];
+    if (!empty($dni)) {
+        $ventas = $objVenta->buscarVentasPorDniCliente($dni);
+        $respuesta = array('status' => true, 'msg' => '', 'data' => $ventas);
+    } else {
+        $respuesta = array('status' => false, 'msg' => 'DNI no proporcionado');
+    }
+    echo json_encode($respuesta);
+}

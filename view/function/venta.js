@@ -166,6 +166,9 @@ async function buscar_cliente_venta() {
             cache: 'no-cache',
             body: datos
         });
+        if (!respuesta.ok) {
+            throw new Error(`HTTP error! status: ${respuesta.status}`);
+        }
         json = await respuesta.json();
         if (json.status) {
             document.getElementById('cliente_nombre').value = json.data.razon_social;
@@ -177,6 +180,7 @@ async function buscar_cliente_venta() {
         }
     } catch (error) {
         console.log("error en buscar cliente " + error);
+        alert("Error al buscar cliente: " + error.message);
     }
 }
 
