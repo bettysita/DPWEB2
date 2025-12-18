@@ -63,20 +63,14 @@ if ($tipo == "iniciar_sesion") {
 }
 
 if ($tipo == "ver_usuarios") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $usuarios = $objPersona->verUsuarios();
-    if (count($usuarios)) {
-        $respuesta = array('status' => true, 'msg' => '', 'data' => $usuarios);
-    }
-    echo json_encode($respuesta);
+    $arrResponse = array('status' => true, 'data' => $usuarios);
+    echo json_encode($arrResponse);
 }
 if ($tipo == "listar_proveedores") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $usuarios = $objPersona->verProveedores();
-    if (count($usuarios)) {
-        $respuesta = array('status' => true, 'msg' => '', 'data' => $usuarios);
-    }
-    echo json_encode($respuesta);
+    $arrResponse = array('status' => true, 'data' => $usuarios);
+    echo json_encode($arrResponse);
 }
 if ($tipo == "ver") {
     //print_r($_POST);
@@ -141,20 +135,14 @@ if ($tipo == "eliminar") {
     echo json_encode($respuesta);
 }
 if ($tipo == "ver_clients") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $usuarios = $objPersona->verClientes();
-    if (count($usuarios)) {
-        $respuesta = array('status' => true, 'msg' => '', 'data' => $usuarios);
-    }
-    echo json_encode($respuesta);
+    $arrResponse = array('status' => true, 'data' => $usuarios);
+    echo json_encode($arrResponse);
 }
 if ($tipo == "ver_proveedores") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $usuarios = $objPersona->verProveedores();
-    if (count($usuarios)) {
-        $respuesta = array('status' => true, 'msg' => '', 'data' => $usuarios);
-    }
-    echo json_encode($respuesta);
+    $arrResponse = array('status' => true, 'data' => $usuarios);
+    echo json_encode($arrResponse);
 }
 if ($tipo == "buscar_cliente") {
     $respuesta = array('status' => false, 'msg' => 'fallo el controlador');

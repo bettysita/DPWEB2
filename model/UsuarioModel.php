@@ -36,8 +36,10 @@ class UsuarioModel
         $arr_usuarios = array();
         $consulta = "SELECT * FROM persona WHERE rol<>'Proveedor' AND rol<>'Cliente'";
         $sql = $this->conexion->query($consulta);
-        while ($objeto = $sql->fetch_object()) {
-            array_push($arr_usuarios, $objeto);
+        if ($sql) {
+            while ($objeto = $sql->fetch_object()) {
+                array_push($arr_usuarios, $objeto);
+            }
         }
         return $arr_usuarios;
     }

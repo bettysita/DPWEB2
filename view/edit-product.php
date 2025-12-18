@@ -70,9 +70,9 @@
 <!-- FIN DE CUERPO DE PÁGINA -->
 <script src="<?php echo BASE_URL; ?>view/function/product.js"></script>
 <script>
-    cargar_categorias();
-    cargar_proveedores();
-</script>
-<script>
-    edit_product();
+    (async function() {
+        await cargar_categorias();
+        await cargar_proveedores();
+        await edit_product();
+    })();
 </script>

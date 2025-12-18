@@ -177,3 +177,13 @@ if ($tipo == "buscar_producto_venta") {
     }
     echo json_encode($respuesta);
 }
+if ($tipo == "eliminar") {
+    $id_producto = $_POST['id_producto'];
+    $respuesta = $objProducto->eliminar($id_producto);
+    if ($respuesta) {
+        $arrResponse = array('status' => true, 'msg' => 'Producto eliminado exitosamente');
+    } else {
+        $arrResponse = array('status' => false, 'msg' => 'Error, fallo en la eliminación');
+    }
+    echo json_encode($arrResponse);
+}

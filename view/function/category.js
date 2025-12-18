@@ -1,7 +1,7 @@
 
 async function view_categorias() {
     try {
-        let respuesta = await fetch(base_url + 'control/CategoriesController.php?tipo=ver_categorias', {
+        let respuesta = await fetch(base_url + '/control/CategoriaController.php?tipo=ver_categorias', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
@@ -11,7 +11,7 @@ async function view_categorias() {
         if (json.status) {
             let cont = 1;
             json.data.forEach(categoria => {
-                
+
                 let nueva_fila = document.createElement("tr");
                 nueva_fila.id = "fila" + categoria.id;
                 nueva_fila.className = "filas_tabla";
@@ -71,7 +71,7 @@ async function registrarCategoria() {
         //capturar campos de formulario (HTML)
         const datos = new FormData(frm_category);
         //enviar datos a controlador
-        let respuesta = await fetch(base_url + 'control/CategoriesController.php?tipo=registrar', {
+        let respuesta = await fetch(base_url + '/control/CategoriaController.php?tipo=registrar', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -79,11 +79,21 @@ async function registrarCategoria() {
         });
         let json = await respuesta.json();
         // validamos que json.status sea = True
-        if (json.status) { //true
-            alert(json.msg);
-            document.getElementById('frm_category').reset();
+        if (json.status) {
+            Swal.fire({
+                icon: "success",
+                title: "Éxito",
+                text: json.msg
+            }).then(() => {
+                document.getElementById('frm_category').reset();
+                window.location.href = base_url + "category";
+            });
         } else {
-            alert(json.msg);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: json.msg
+            });
         }
     } catch (e) {
         console.log("Error al registrar Categoria:" + e);
@@ -97,7 +107,7 @@ async function edit_categoria() {
         const datos = new FormData();
         datos.append('id_categoria', id_categoria);
 
-        let respuesta = await fetch(base_url + 'control/CategoriesController.php?tipo=ver', {
+        let respuesta = await fetch(base_url + '/control/CategoriaController.php?tipo=ver', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -105,7 +115,11 @@ async function edit_categoria() {
         });
         json = await respuesta.json();
         if (!json.status) {
-            alert(json.msg);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: json.msg
+            });
             return;
         }
         document.getElementById('nombre').value = json.data.nombre;
@@ -127,7 +141,7 @@ if (document.querySelector('#frm_edit_category')) {
 
 async function actualizarCategoria() {
     const datos = new FormData(frm_edit_category);
-    let respuesta = await fetch(base_url + 'control/CategoriesController.php?tipo=actualizar', {
+    let respuesta = await fetch(base_url + '/control/CategoriaController.php?tipo=actualizar', {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
@@ -135,36 +149,66 @@ async function actualizarCategoria() {
     });
     json = await respuesta.json();
     if (!json.status) {
-        alert("Oooooops, ocurrio un error al actualizar, intentelo nuevamente");
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ocurrió un error al actualizar, inténtelo nuevamente"
+        });
         console.log(json.msg);
         return;
-    }else{
-        alert(json.msg);
+    } else {
+        Swal.fire({
+            icon: "success",
+            title: "Actualizado",
+            text: json.msg
+        }).then(() => {
+            window.location.href = base_url + "category";
+        });
     }
 }
 
 
 async function fn_eliminar(id) {
-    if (window.confirm("Confirmar eliminar?")) {
-        eliminar(id);
-    }
+    Swal.fire({
+        title: "¿Está seguro?",
+        text: "¡No podrá revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarCategoria(id);
+        }
+    });
 }
-async function eliminar(id) {
+async function eliminarCategoria(id) {
     let datos = new FormData();
     datos.append('id_categoria', id);
-    let respuesta = await fetch(base_url + 'control/CategoriesController.php?tipo=eliminar', {
+    let respuesta = await fetch(base_url + '/control/CategoriaController.php?tipo=eliminar', {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
         body: datos
     });
-    json = await respuesta.json();
+    let json = await respuesta.json();
     if (!json.status) {
-        alert("Oooooops, ocurrio un error al eliminar categhoria, intentelo mas tarde");
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ocurrió un error al eliminar categoría, inténtelo más tarde"
+        });
         console.log(json.msg);
         return;
-    }else{
-        alert(json.msg);
-        location.replace(base_url + 'category');
+    } else {
+        Swal.fire({
+            icon: "success",
+            title: "Eliminado",
+            text: json.msg
+        }).then(() => {
+            location.reload();
+        });
     }
 }

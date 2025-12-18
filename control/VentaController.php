@@ -8,14 +8,14 @@ $objVenta = new VentaModel();
 $tipo = $_GET['tipo'];
 
 if ($tipo == "registrarTemporal") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $id_producto = $_POST['id_producto'];
     $precio = $_POST['precio'];
     $cantidad = $_POST['cantidad'];
 
     $b_producto = $objVenta->buscarTemporal($id_producto);
     if ($b_producto) {
-        $objVenta->actualizarCantidadTemporal($id_producto, $cantidad);
+        $nueva_cantidad = $b_producto->cantidad + $cantidad;
+        $objVenta->actualizarCantidadTemporal($id_producto, $nueva_cantidad);
         $respuesta = array('status' => true, 'msg' => 'actualizado');
     }else {
         $registro = $objVenta->registrar_temporal($id_producto, $precio, $cantidad);
@@ -25,85 +25,85 @@ if ($tipo == "registrarTemporal") {
 }
 
 if ($tipo == "listarTemporales") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $temporales = $objVenta->buscarTemporales();
     $arrTemp = array();
-    if (count($temporales)) {
+    if (count($temporales) >= 0) {
         foreach ($temporales as $temp) {
             $producto = $objProducto->ver($temp->id_producto);
-            $temp->producto = $producto->nombre;
+            $temp->producto = ($producto) ? $producto->nombre : "Producto no encontrado";
             $temp->subtotal = $temp->precio * $temp->cantidad;
             array_push($arrTemp, $temp);
         }
         usort($arrTemp, function($a, $b) {
             return strcasecmp($a->producto, $b->producto);
         });
-        $respuesta = array('status' => true, 'msg' => '', 'data' => $arrTemp);
+        $respuesta = array('status' => true, 'data' => $arrTemp);
+    } else {
+        $respuesta = array('status' => false, 'msg' => 'Error al listar temporales');
     }
     echo json_encode($respuesta);
 }
 
 if ($tipo == "eliminarTemporal") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $id = $_POST['id'];
     $eliminar = $objVenta->eliminarTemporal($id);
     if ($eliminar) {
         $respuesta = array('status' => true, 'msg' => 'eliminado');
+    } else {
+        $respuesta = array('status' => false, 'msg' => 'Error al eliminar');
     }
     echo json_encode($respuesta);
 }
 
 if ($tipo == "actualizarCantidadTemporalPorId") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $id = $_POST['id'];
     $cantidad = $_POST['cantidad'];
     $actualizar = $objVenta->actualizarCantidadTemporalPorId($id, $cantidad);
     if ($actualizar) {
         $respuesta = array('status' => true, 'msg' => 'cantidad actualizada');
+    } else {
+        $respuesta = array('status' => false, 'msg' => 'Error al actualizar');
     }
     echo json_encode($respuesta);
 }
 
 if ($tipo == "registrarVenta") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
-    $id_cliente = $_POST['id_cliente'];
-    $fecha_venta = $_POST['fecha_venta'];
-    $id_vendedor = 1; // TODO: get from session
+    session_start();
+    $id_cliente = $_POST['id_cliente'] ?? '';
+    $fecha_venta = $_POST['fecha_venta'] ?? date('Y-m-d H:i:s');
+    $id_vendedor = $_SESSION['ventas_id'] ?? 1;
+    
     $temporales = $objVenta->buscarTemporales();
     if (count($temporales) > 0 && !empty($id_cliente)) {
         // Generate correlativo
         $ultima_venta = $objVenta->buscar_ultima_venta();
-        $correlativo = $ultima_venta ? $ultima_venta->codigo + 1 : 1;
+        $correlativo = $ultima_venta ? ($ultima_venta->codigo + 1) : 1;
         // Insert into venta table
         $id_venta = $objVenta->registrar_venta($id_cliente, $fecha_venta, $id_vendedor, $correlativo);
         if ($id_venta > 0) {
             // Insert details
-            foreach ($temporales as $temp) {
-                $objVenta->registrar_detalle_venta($id_venta, $temp->id_producto, $temp->cantidad, $temp->precio);
-            }
-            // Calculate total
             $total = 0;
             foreach ($temporales as $temp) {
+                $objVenta->registrar_detalle_venta($id_venta, $temp->id_producto, $temp->cantidad, $temp->precio);
                 $total += $temp->precio * $temp->cantidad;
             }
             // Clear temporals
             $objVenta->eliminarTemporales();
-            $respuesta = array('status' => true, 'msg' => 'venta registrada', 'codigo' => $correlativo, 'total' => $total);
+            $respuesta = array('status' => true, 'msg' => 'Venta registrada con éxito', 'codigo' => $correlativo, 'total' => $total);
         } else {
-            $respuesta = array('status' => false, 'msg' => 'error al registrar venta');
+            $respuesta = array('status' => false, 'msg' => 'Error al registrar venta en base de datos');
         }
     } else {
-        $respuesta = array('status' => false, 'msg' => 'no hay productos o cliente no seleccionado');
+        $respuesta = array('status' => false, 'msg' => 'No hay productos en el carrito o cliente no seleccionado');
     }
     echo json_encode($respuesta);
 }
 
 if ($tipo == "buscarVentasPorDni") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
-    $dni = $_POST['dni'];
+    $dni = $_POST['dni'] ?? '';
     if (!empty($dni)) {
         $ventas = $objVenta->buscarVentasPorDniCliente($dni);
-        $respuesta = array('status' => true, 'msg' => '', 'data' => $ventas);
+        $respuesta = array('status' => true, 'data' => $ventas);
     } else {
         $respuesta = array('status' => false, 'msg' => 'DNI no proporcionado');
     }

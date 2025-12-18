@@ -74,7 +74,7 @@ class VentaModel
     }
 
     public function registrar_detalle_venta($id_venta, $id_producto, $cantidad, $precio){
-        $consulta = "INSERT INTO venta_detalle (id_venta, id_producto, cantidad, precio) VALUES ('$id_venta', '$id_producto', '$cantidad', '$precio')";
+        $consulta = "INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio) VALUES ('$id_venta', '$id_producto', '$cantidad', '$precio')";
         $sql = $this->conexion->query($consulta);
         return $sql;
     }

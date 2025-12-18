@@ -7,7 +7,7 @@ async function agregar_producto_temporal() {
     datos.append('precio', precio);
     datos.append('cantidad', cantidad);
     try {
-        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=registrarTemporal', {
+        let respuesta = await fetch(base_url + '/control/VentaController.php?tipo=registrarTemporal', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -15,13 +15,16 @@ async function agregar_producto_temporal() {
         });
         json = await respuesta.json();
         if (json.status) {
-            if (json.msg == "registrado") {
-                alert("el producto fue registrado");
-                listarTemporales();
-            } else {
-                alert("el producto fue actualizado");
-                listarTemporales();
-            }
+            Swal.fire({
+                icon: "success",
+                title: "Carrito",
+                text: json.msg == "registrado" ? "Producto agregado al carrito" : "Cantidad actualizada en el carrito",
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000
+            });
+            listarTemporales();
         }
 
     } catch (error) {
@@ -31,7 +34,7 @@ async function agregar_producto_temporal() {
 
 async function listarTemporales() {
     try {
-        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=listarTemporales', {
+        let respuesta = await fetch(base_url + '/control/VentaController.php?tipo=listarTemporales', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
@@ -68,7 +71,7 @@ async function eliminarTemporal(id) {
     const datos = new FormData();
     datos.append('id', id);
     try {
-        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=eliminarTemporal', {
+        let respuesta = await fetch(base_url + '/control/VentaController.php?tipo=eliminarTemporal', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -76,7 +79,6 @@ async function eliminarTemporal(id) {
         });
         json = await respuesta.json();
         if (json.status) {
-            alert("eliminado");
             listarTemporales();
         }
     } catch (error) {
@@ -89,7 +91,7 @@ async function actualizarCantidad(id, cantidad) {
     datos.append('id', id);
     datos.append('cantidad', cantidad);
     try {
-        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=actualizarCantidadTemporalPorId', {
+        let respuesta = await fetch(base_url + '/control/VentaController.php?tipo=actualizarCantidadTemporalPorId', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -136,7 +138,7 @@ async function actualizarTotales() {
 
 async function realizarVenta() {
     try {
-        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=registrarVenta', {
+        let respuesta = await fetch(base_url + '/control/VentaController.php?tipo=registrarVenta', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
@@ -154,13 +156,17 @@ async function realizarVenta() {
 async function buscar_cliente_venta() {
     let dni = document.getElementById('cliente_dni').value;
     if (dni == '') {
-        alert('Ingrese el DNI del cliente');
+        Swal.fire({
+            icon: "warning",
+            title: "Atención",
+            text: "Ingrese el DNI del cliente"
+        });
         return;
     }
     try {
         const datos = new FormData();
         datos.append('dni', dni);
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=buscar_cliente', {
+        let respuesta = await fetch(base_url + '/control/UsuarioController.php?tipo=buscar_cliente', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -173,8 +179,19 @@ async function buscar_cliente_venta() {
         if (json.status) {
             document.getElementById('cliente_nombre').value = json.data.razon_social;
             document.getElementById('id_cliente_venta').value = json.data.id;
+            Swal.fire({
+                icon: "success",
+                title: "Cliente encontrado",
+                text: json.data.razon_social,
+                timer: 1500,
+                showConfirmButton: false
+            });
         } else {
-            alert(json.msg);
+            Swal.fire({
+                icon: "error",
+                title: "No encontrado",
+                text: json.msg
+            });
             document.getElementById('cliente_nombre').value = '';
             document.getElementById('id_cliente_venta').value = '';
         }
@@ -195,7 +212,7 @@ async function registrarVenta() {
         const datos = new FormData();
         datos.append('id_cliente', id_cliente);
         datos.append('fecha_venta', fecha_venta);
-        let respuesta = await fetch(base_url + 'control/VentaController.php?tipo=registrarVenta', {
+        let respuesta = await fetch(base_url + '/control/VentaController.php?tipo=registrarVenta', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -203,14 +220,23 @@ async function registrarVenta() {
         });
         json = await respuesta.json();
         if (json.status) {
-            alert("Venta registrada con exito. Codigo: " + json.codigo + " Total: $" + json.total.toFixed(2));
-            window.location.reload();
+            Swal.fire({
+                icon: "success",
+                title: "Venta Exitosa",
+                text: "Venta registrada con éxito. Código: " + json.codigo + " Total: $" + json.total.toFixed(2)
+            }).then(() => {
+                window.location.reload();
+            });
         } else {
-            alert("Error al registrar la venta: " + json.msg);
+            Swal.fire({
+                icon: "error",
+                title: "Error de Venta",
+                text: json.msg
+            });
         }
-        
+
     } catch (error) {
         console.log("error en registrar venta " + error);
-        
+
     }
 }

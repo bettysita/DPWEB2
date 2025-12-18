@@ -1,3 +1,5 @@
+
+
 function validar_form(tipo) {
     let nro_documento = document.getElementById("nro_identidad").value;
     let razon_social = document.getElementById("razon_social").value;
@@ -11,8 +13,8 @@ function validar_form(tipo) {
     let rol = document.getElementById("rol").value;
     if (nro_documento == "" || razon_social == "" || telefono == "" || correo == "" || departamento == "" || provincia == "" || distrito == "" || cod_postal == "" || direccion == "" || rol == "") {
         Swal.fire({
-            title: "Error campos vacios!",
-            icon: "Error",
+            title: "Error campos vacíos!",
+            icon: "error",
             draggable: true
         });
         return;
@@ -39,7 +41,7 @@ async function registrarUsuario() {
         //capturar campos de formulario (HTML)
         const datos = new FormData(frm_user);
         //enviar datos a controlador
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=registrar', {
+        let respuesta = await fetch(base_url + '/control/UsuarioController.php?tipo=registrar', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -47,11 +49,26 @@ async function registrarUsuario() {
         });
         let json = await respuesta.json();
         // validamos que json.status sea = True
-        if (json.status) { //true
-            alert(json.msg);
-            document.getElementById('frm_user').reset();
+        if (json.status) {
+            Swal.fire({
+                icon: "success",
+                title: "Éxito",
+                text: json.msg
+            }).then(() => {
+                if (window.location.href.includes('provider')) {
+                    window.location.href = base_url + "providers";
+                } else if (window.location.href.includes('client')) {
+                    window.location.href = base_url + "clients";
+                } else {
+                    window.location.href = base_url + "users";
+                }
+            });
         } else {
-            alert(json.msg);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: json.msg
+            });
         }
     } catch (e) {
         console.log("Error al registrar Usuario:" + e);
@@ -68,7 +85,7 @@ async function iniciar_sesion() {
     }
     try {
         const datos = new FormData(frm_login);
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=iniciar_sesion', {
+        let respuesta = await fetch(base_url + '/control/UsuarioController.php?tipo=iniciar_sesion', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -90,16 +107,17 @@ async function iniciar_sesion() {
 
 async function view_users() {
     try {
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_usuarios', {
+        let respuesta = await fetch(base_url + '/control/UsuarioController.php?tipo=ver_usuarios', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
         });
-        json = await respuesta.json();
-        contenidot = document.getElementById('content_users');
+        let json = await respuesta.json();
+        let contenidot = document.getElementById('content_users');
         if (json.status) {
             let cont = 1;
             json.data.forEach(usuario => {
+                let estado = "";
                 if (usuario.estado == 1) {
                     estado = "activo";
                 } else {
@@ -125,7 +143,7 @@ async function view_users() {
             });
         }
     } catch (error) {
-        console.log('error en mostrar usuario ' + e);
+        console.log('error en mostrar usuario ' + error);
     }
 }
 if (document.getElementById('content_users')) {
@@ -138,7 +156,7 @@ async function edit_user() {
         const datos = new FormData();
         datos.append('id_persona', id_persona);
 
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver', {
+        let respuesta = await fetch(base_url + '/control/UsuarioController.php?tipo=ver', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -146,7 +164,11 @@ async function edit_user() {
         });
         json = await respuesta.json();
         if (!json.status) {
-            alert(json.msg);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: json.msg
+            });
             return;
         }
         document.getElementById('nro_identidad').value = json.data.nro_identidad;
@@ -159,7 +181,6 @@ async function edit_user() {
         document.getElementById('cod_postal').value = json.data.cod_postal;
         document.getElementById('direccion').value = json.data.direccion;
         document.getElementById('rol').value = json.data.rol;
-
     } catch (error) {
         console.log('oops, ocurrió un error ' + error);
     }
@@ -175,7 +196,7 @@ if (document.querySelector('#frm_edit_user')) {
 
 async function actualizarUsuario() {
     const datos = new FormData(frm_edit_user);
-    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
+    let respuesta = await fetch(base_url + '/control/UsuarioController.php?tipo=actualizar', {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
@@ -183,22 +204,49 @@ async function actualizarUsuario() {
     });
     json = await respuesta.json();
     if (!json.status) {
-        alert("Oooooops, ocurrio un error al actualizar, intentelo nuevamente");
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ocurrió un error al actualizar, inténtelo nuevamente"
+        });
         console.log(json.msg);
         return;
-    }else{
-        alert(json.msg);
+    } else {
+        Swal.fire({
+            icon: "success",
+            title: "Actualizado",
+            text: json.msg
+        }).then(() => {
+            if (window.location.href.includes('provider')) {
+                window.location.href = base_url + "providers";
+            } else if (window.location.href.includes('client')) {
+                window.location.href = base_url + "clients";
+            } else {
+                window.location.href = base_url + "users";
+            }
+        });
     }
 }
 async function fn_eliminar(id) {
-    if (window.confirm("Confirmar eliminar?")) {
-        eliminar(id);
-    }
+    Swal.fire({
+        title: "¿Está seguro?",
+        text: "¡No podrá revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarUsuario(id);
+        }
+    });
 }
-async function eliminar(id) {
+async function eliminarUsuario(id) { // Renamed from eliminar
     let datos = new FormData();
     datos.append('id_persona', id);
-    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
+    let respuesta = await fetch(base_url + '/control/UsuarioController.php?tipo=eliminar', {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
@@ -206,19 +254,27 @@ async function eliminar(id) {
     });
     json = await respuesta.json();
     if (!json.status) {
-        alert("Oooooops, ocurrio un error al eliminar persona, intentelo mas tarde");
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ocurrió un error al eliminar persona, inténtelo más tarde"
+        });
         console.log(json.msg);
         return;
-    }else{
-        alert(json.msg);
-        //location.replace(base_url + 'users');
-        location.reload();
+    } else {
+        Swal.fire({
+            icon: "success",
+            title: "Eliminado",
+            text: json.msg
+        }).then(() => {
+            location.reload();
+        });
     }
 }
 
 async function view_providers() {
     try {
-        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver_proveedores', {
+        let respuesta = await fetch(base_url + '/control/UsuarioController.php?tipo=ver_proveedores', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
